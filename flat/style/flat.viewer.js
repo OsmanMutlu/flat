@@ -11,9 +11,11 @@ var globannotationsorder = ['entity','semrole','coreferencechain','su','dependen
 var displayorder = ['t','ph','lemma','pos','sense','entity','sentiment','observation','statement','chunk','su','dependency','predicate','semrole'];
 var hoverstr = null; //ID of string element we're currently hovering over
 var suggestinsertion = {}; //holds suggestions for insertion: id => annotation  , for use in the editor
+//Too Many Classes
 var NROFCLASSES = 18; //number of coloured classes
 var searchsubmitted = false;
 
+// The excessive use of "Osman" (which is my name) in this document is for me to quickly find where i made changes, nothing to with egoism :)
 
 function sethover(element) {
     if ((element) && (((selector !== "") && ($(element).hasClass(selector))) || ((selector === "") && ($(element).hasClass('deepest')))) ) {
@@ -760,6 +762,7 @@ function computeclassfreq() {
                     }
                 }
         });
+        // Because we want every class to show up on the legend
         if (osmanisannotated == false) {
             classfreq[c] = -1;
         }
@@ -785,6 +788,7 @@ function setclasscolors() {
             classrank[key] = currentrank;
             var keylabel = getclasslabel(legendset, key);
 //            s = s + "<div id=\"class" + currentrank + "legend\" class=\"colorbox\"></div><span>" + keylabel + "</span><br />";
+// We still want to know which classes are annotated so we put a plus sign next to them
             if (classfreq[key] != -1) {
                 s = s + "<div id=\"class" + currentrank + "legend\" class=\"colorbox\"></div><span>" + keylabel + " +" + "</span><br />";
             }
@@ -826,7 +830,7 @@ function setclasscolors() {
                 }
             }
         }
-
+// This is for underlining the words that have been annotated in other focuses
         else if ((annotation.type == annotationfocus.type) && (annotation.set != annotationfocus.set) && (annotation.class)) {
             if (($('#' + valid(structureelement.id)).hasClass('w')) && (!($('#' + valid(structureelement.id)).hasClass('classosman'))) && ($.inArray(valid(structureelement.id), wordsSeen) == -1)) {
                 $('#' + valid(structureelement.id)).addClass('classosman');
@@ -1182,6 +1186,7 @@ function viewer_loadmenus() {
             }
         }
         if ((configuration.allowedannotationfocus === true) || (configuration.allowedannotationfocus.indexOf(annotationtype + '/' + set) != -1) || (configuration.allowedannotationfocus.indexOf(annotationtype) != -1)) {
+// This is to show certain part of the foliaset url
             focusmenu.push([annotationtype,"<li id=\"annotationtypefocus_" +annotationtype+"_" + hash(set) + "\"><a href=\"javascript:setannotationfocus('" + annotationtype + "','" + set + "')\">" + String(set).slice(57,-13) +  "<span class=\"setname\">" + set + "</span></a></li>"]);
         }
 

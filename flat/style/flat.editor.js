@@ -2036,6 +2036,7 @@ function console_submit(savefunction) {
         error: function(req,err,exception) {
             $('#wait').hide();
             notice("Error");
+// I don't like this error :)
 // Osman            editor_error("Query failed: " + err + " " + exception + ": " + req.responseText);
         },
         dataType: "json"

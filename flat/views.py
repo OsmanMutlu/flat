@@ -17,6 +17,7 @@ import django.contrib.auth
 from django.conf import settings
 
 from pynlpl.formats import fql
+
 from xml.etree import ElementTree as ET
 
 import flat.comm
@@ -587,6 +588,9 @@ def addnamespace(request):
     else:
         return fatalerror(request, "Permission denied",403)
 
+#This function is called when user presses the #religionsubmit button
+#It's purpose is to write the added meta tag to the folia xml file (This is due to meta tags not being saved on file bug that is caused by my edits. Should look into it)
+#This function requires the file to have rw permissions for any user
 @login_required
 def process_meta(request, namespace, docid):
     metakey = request.POST.get('metakey')
