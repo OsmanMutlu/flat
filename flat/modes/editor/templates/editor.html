@@ -6,6 +6,108 @@
 <script type="text/javascript" src="/style/flat.viewer.js"></script> 
 <link rel="stylesheet" href="/style/treeview.css" type="text/css" />
 <script type="text/javascript" src="/style/svg-tree-drawer.js"></script> 
+<script>
+$(document).ready(function(){
+
+    Object.keys(metadata).forEach(function(key){
+        if (key == "ReligionParticipant") {
+            $('#ReligionParticipant').text(key + " : " + metadata[key]);
+        }
+        else if (key == "ReligionOrganizer") {
+            $('#ReligionOrganizer').text(key + " : " + metadata[key]);
+        }
+        else if (key == "ReligionTargeted") {
+            $('#ReligionTargeted').text(key + " : " + metadata[key]);
+        }
+    });
+
+    $("#protestsubmit").click(function(){
+        var newvalue = $('#protestfield :selected').text();
+        var newinput = "USE " + namespace + "/" + docid + " META Done" + "=" + newvalue;
+        $('#queryinput').val(newinput);
+        console_submit();
+    });
+
+    $("#religionsubmit").click(function(){
+        var newvalue2 = $('#religiontype :selected').text();
+        var newvalue3 = $('#religionfield :selected').text();
+
+        var url = "/" + namespace + "/" + docid + "/process_meta"
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "json",
+            data: {
+                metakey: "Religion" + newvalue2,
+                metavalue: newvalue3,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+            success : function(json) {
+                //alert("Successfully sent the URL to Django");
+                location.reload();
+            },
+            error : function(xhr,errmsg,err) {
+                alert("Lütfen Tekrar OK'ye Basın. Error : " + xhr.status + ": " + xhr.responseText);
+            }
+        });
+
+
+        var newinput2 = "USE " + namespace + "/" + docid + " META Religion" + newvalue2 + "=" + newvalue3;
+        $('#queryinput').val(newinput2);
+        console_submit();
+
+    });
+});
+</script>
+<style>
+div#protestselector {
+    width: 40px;
+    background: transparent;
+    right: 130px;
+    top: 90px;
+    position: fixed;
+}
+div#protestbutton {
+    position: fixed;
+    right: 70px;
+    top: 102px;
+}
+div#religiontypeselector {
+    width: 80px;
+    background: transparent;
+    right: 280px;
+    top: 270px;
+    position: fixed;
+}
+div#religionselector {
+    width: 100px;
+    background: transparent;
+    right: 150px;
+    top: 270px;
+    position: fixed;
+}
+div#religionbutton {
+    position: fixed;
+    right: 70px;
+    top: 282px;
+}
+div#relpart {
+    position: fixed;
+    right: 150px;
+    top: 320px;
+}
+div#relorg {
+    position: fixed;
+    right: 150px;
+    top: 335px;
+}
+div#reltarg {
+    position: fixed;
+    right: 150px;
+    top: 350px;
+}
+</style>
 {% endblock %}
 
 {% block js %}
@@ -118,6 +220,50 @@ initialcorrectionset = '{{ initialcorrectionset }}';
 </div>
 {% include "search.html" %}
 {% include "treeview.html" %}
+<div id="protestselector">
+    <span>Done : </span>
+    <select id="protestfield" class="protestedit">
+        <option value=""></option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+    </select>
+</div>
+<div id="religiontypeselector">
+    <span>Focus : </span>
+    <select id="religiontype">
+        <option value=""></option>
+        <option value="part">Participant</option>
+        <option value="org">Organizer</option>
+        <option value="target">Targeted</option>
+    </select>
+</div>
+<div id="religionselector">
+    <span>Religion : </span>
+    <select id="religionfield">
+        <option value=""></option>
+        <option value="hindu">Hinduism</option>
+        <option value="islam">Islam</option>
+        <option value="chris">Christianity</option>
+        <option value="sikh">Sikhism</option>
+        <option value="bud">Buddhism</option>
+        <option value="other">Other</option>
+    </select>
+</div>
+<div class="buttoncontainer" id="protestbutton">
+    <button id="protestsubmit">Ok</button>
+</div>
+<div class="buttoncontainer" id="religionbutton">
+    <button id="religionsubmit">Ok</button>
+</div>
+<div id="relpart">
+    <span id="ReligionParticipant" style="font-size: 8pt"></span>
+</div>
+<div id="relorg">
+    <span id="ReligionOrganizer" style="font-size: 8pt"></span>
+</div>
+<div id="reltarg">
+    <span id="ReligionTargeted" style="font-size: 8pt"></span>
+</div>
 <div id="connectioninfo"></div>
 <div id="queueinfo">
     <button id="submitqueue" title="Submit all queued annotations">Submit queue</button>
@@ -133,4 +279,3 @@ initialcorrectionset = '{{ initialcorrectionset }}';
 <div id="document">
 </div>
 {% endblock %}
-

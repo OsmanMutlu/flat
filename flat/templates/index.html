@@ -96,7 +96,9 @@
         <li>{%if allowcopy or allowdelete %}<input type="checkbox" name="docselect{{forloop.counter0}}" value="{{namespace}}/{{doc}}"/>{%endif%} <a href="/{{ defaultmode }}/{{ namespace }}/{{ doc }}/" onclick="index_click();">{{ doc }}</a> <span>{{size}}MB &nbsp;&nbsp; <em>{{ timestamp }}</em></span> <span>[<a href="/download/{{ namespace }}/{{ doc }}.folia.xml">Download</a>]</span>
             <span>
             {% for key, value in metaitems %}
-            {{key}}: {{value}} &nbsp;
+                {% if key == "Done" %}
+                    {{key}}: {{value}} &nbsp;
+                {% endif %}
             {% endfor %} 
             </span> </li>
         {% endfor %}

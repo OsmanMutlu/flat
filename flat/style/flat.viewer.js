@@ -6,11 +6,12 @@ var annotatordetails = false; //show annotor details
 var showoriginal = false; //show originals instead of corrections
 var showdeletions = false; //show deletions
 var hover = null;
+var osmanisannotated = false;
 var globannotationsorder = ['entity','semrole','coreferencechain','su','dependency','sense','pos','lemma','chunk']; //from top to bottom
 var displayorder = ['t','ph','lemma','pos','sense','entity','sentiment','observation','statement','chunk','su','dependency','predicate','semrole'];
 var hoverstr = null; //ID of string element we're currently hovering over
 var suggestinsertion = {}; //holds suggestions for insertion: id => annotation  , for use in the editor
-var NROFCLASSES = 7; //number of coloured classes
+var NROFCLASSES = 18; //number of coloured classes
 var searchsubmitted = false;
 
 
@@ -747,9 +748,22 @@ function computeclassfreq() {
                 if (classfreq[annotation.class]) {
                     classfreq[annotation.class]--; //reverse for sorting later
                 } else {
-                    classfreq[annotation.class] = -1; //reverse for sorting later
+                    classfreq[annotation.class] = -2; //reverse for sorting later
                 }
             }
+    });
+    Object.keys(setdefinitions[annotationfocus.set].classes).forEach(function(c){
+        forallannotations(function(structureelement,annotation){
+                if ((annotation.type == annotationfocus.type) && (annotation.set == annotationfocus.set) && (annotation.class)) {
+                    if (c == annotation.class) {
+                        osmanisannotated = true;
+                    }
+                }
+        });
+        if (osmanisannotated == false) {
+            classfreq[c] = -1;
+        }
+        osmanisannotated = false;
     });
     return classfreq;
 }
@@ -770,7 +784,13 @@ function setclasscolors() {
         if (currentrank <= NROFCLASSES) {
             classrank[key] = currentrank;
             var keylabel = getclasslabel(legendset, key);
-            s = s + "<div id=\"class" + currentrank + "legend\" class=\"colorbox\"></div><span>" + keylabel + "</span><br />";
+//            s = s + "<div id=\"class" + currentrank + "legend\" class=\"colorbox\"></div><span>" + keylabel + "</span><br />";
+            if (classfreq[key] != -1) {
+                s = s + "<div id=\"class" + currentrank + "legend\" class=\"colorbox\"></div><span>" + keylabel + " +" + "</span><br />";
+            }
+            else {
+                s = s + "<div id=\"class" + currentrank + "legend\" class=\"colorbox\"></div><span>" + keylabel + "</span><br />";
+            }
             currentrank++;
         } else {
             classrank[key] = 'other';
@@ -778,9 +798,15 @@ function setclasscolors() {
     });
 
 
+
+    wordsSeen = []
     forallannotations(function(structureelement, annotation){
         if ((annotation.type == annotationfocus.type) && (annotation.set == annotationfocus.set) && (annotation.class)) {
             if (classrank[annotation.class]) {
+
+                wordsSeen.push(valid(structureelement.id))
+                $('#' + valid(structureelement.id)).removeClass('classosman');
+
                 if ($('#' + valid(structureelement.id)).hasClass('w')) {
                     $('#' + valid(structureelement.id)).addClass('class' + classrank[annotation.class]);
                 }
@@ -798,6 +824,12 @@ function setclasscolors() {
                         });
                     }
                 }
+            }
+        }
+
+        else if ((annotation.type == annotationfocus.type) && (annotation.set != annotationfocus.set) && (annotation.class)) {
+            if (($('#' + valid(structureelement.id)).hasClass('w')) && (!($('#' + valid(structureelement.id)).hasClass('classosman'))) && ($.inArray(valid(structureelement.id), wordsSeen) == -1)) {
+                $('#' + valid(structureelement.id)).addClass('classosman');
             }
         }
     });
@@ -1150,7 +1182,7 @@ function viewer_loadmenus() {
             }
         }
         if ((configuration.allowedannotationfocus === true) || (configuration.allowedannotationfocus.indexOf(annotationtype + '/' + set) != -1) || (configuration.allowedannotationfocus.indexOf(annotationtype) != -1)) {
-            focusmenu.push([annotationtype,"<li id=\"annotationtypefocus_" +annotationtype+"_" + hash(set) + "\"><a href=\"javascript:setannotationfocus('" + annotationtype + "','" + set + "')\">" + label +  "<span class=\"setname\">" + set + "</span></a></li>"]);
+            focusmenu.push([annotationtype,"<li id=\"annotationtypefocus_" +annotationtype+"_" + hash(set) + "\"><a href=\"javascript:setannotationfocus('" + annotationtype + "','" + set + "')\">" + String(set).slice(57,-13) +  "<span class=\"setname\">" + set + "</span></a></li>"]);
         }
 
       });

@@ -4,6 +4,8 @@ import os
 import json
 import datetime
 import logging
+import re
+import codecs
 
 from collections import defaultdict
 
@@ -15,6 +17,7 @@ import django.contrib.auth
 from django.conf import settings
 
 from pynlpl.formats import fql
+from xml.etree import ElementTree as ET
 
 import flat.comm
 import flat.users
@@ -371,7 +374,7 @@ def index(request, namespace=""):
                 metaitems = []
             docs.append( (docid, round(r['filesize'][d] / 1024 / 1024,2) , datetime.datetime.fromtimestamp(r['timestamp'][d]).strftime("%Y-%m-%d %H:%M"), metaitems ) )
 
-
+#    docs = sorted(docs, key=lambda x: x[2])
     docs.sort()
 
     if namespace:
@@ -583,3 +586,36 @@ def addnamespace(request):
             return fatalerror(request, "Permission denied",403)
     else:
         return fatalerror(request, "Permission denied",403)
+
+@login_required
+def process_meta(request, namespace, docid):
+    metakey = request.POST.get('metakey')
+    metavalue = request.POST.get('metavalue')
+
+    osmanfile = '/home/ubuntu/flat/foliadocserver/' + namespace + '/' + docid + '.folia.xml'
+    doc = ET.parse(osmanfile)
+    root = doc.getroot()
+    xmlstr = ET.tostring(root, encoding='utf8')
+
+    m = re.findall('<meta id="%s">\w+<\/meta>' % metakey, str(xmlstr))
+    m2 = re.findall('<meta id="%s" \/>' % metakey, str(xmlstr))
+    if m:
+        xmlstr = re.sub('<meta id="%s">\w+<\/meta>' % metakey,r'<meta id="' + metakey + '">' + metavalue + '</meta>', xmlstr.decode("utf-8"))
+        with codecs.open(osmanfile, "w", "utf-8") as f:
+            f.write(xmlstr)
+    elif m2:
+        xmlstr = re.sub('<meta id="%s" \/>' % metakey,r'<meta id="' + metakey + '">' + metavalue + '</meta>', xmlstr.decode("utf-8"))
+        with codecs.open(osmanfile, "w", "utf-8") as f:
+            f.write(xmlstr)
+    else:
+        metadata = root.getchildren()[0]
+        meta = ET.Element('meta', id=metakey)
+        meta.text = metavalue
+        metadata.append(meta)
+
+        doc.write(osmanfile)
+
+    ctx = dict()
+    ctx['hello'] = 'world'
+    return HttpResponse(json.dumps(ctx),content_type='application/json')
+#    return HttpResponse("Tamamdır.", content_type="text/plain")
