@@ -1,6 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" >
     <head>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
         <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
         <meta name="author" content="Maarten van Gompel" />
         <title>FoLiA Linguistic Annotation Tool</title>
@@ -20,7 +23,7 @@
         {% endblock %}
         {% if mode %}
         <link rel="StyleSheet" href="/style/flat.{{ mode }}.css" type="text/css" />
-        <script type="text/javascript" src="/style/flat.{{ mode }}.js"></script>
+        <script type="text/javascript" src="/style/flat.{{ mode }}.js?version=2"></script>
         {% endif %}
         {% if docid and not fatalerror %}
         <script type="text/javascript">
