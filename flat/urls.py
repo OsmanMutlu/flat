@@ -38,8 +38,6 @@ urlpatterns = [
     url(r'^addnamespace/?$', flat.views.addnamespace, name='addnamespace'),
     url(r'^pub/(?P<configuration>[\w\d\-_\./@]+)/(?P<docid>[\w\d\-_\.]+)/query/?$', flat.views.pub_query, name='query'), #generic query function
     url(r'^(?P<namespace>[\w\d\-_\./@]+)/(?P<docid>[\w\d\-_\.]+)/query/?$', flat.views.query, name='query'), #generic query function
-#Bridge between the editor.html and views.py for saving meta tags in file
-    url(r'^(?P<namespace>[\w\d\-_\./@]+)/(?P<docid>[\w\d\-_\.]+)/process_meta', flat.views.process_meta, name='meta'), #generic query function
     # url(r'^flat/', include('flat.foo.urls')),
 ]
 
@@ -62,6 +60,3 @@ for mode, _ in settings.MODES:
         urlpatterns += patterns('', url(r'^' + mode + '/', include('flat.modes.' + mode + '.urls')))
     else:
         urlpatterns += [ url(r'^' + mode + '/', include('flat.modes.' + mode + '.urls'))]
-
-
-

@@ -587,39 +587,3 @@ def addnamespace(request):
             return fatalerror(request, "Permission denied",403)
     else:
         return fatalerror(request, "Permission denied",403)
-
-#This function is called when user presses the #religionsubmit button
-#It's purpose is to write the added meta tag to the folia xml file (This is due to meta tags not being saved on file bug that is caused by my edits. Should look into it)
-#This function requires the file to have rw permissions for any user
-@login_required
-def process_meta(request, namespace, docid):
-    metakey = request.POST.get('metakey')
-    metavalue = request.POST.get('metavalue')
-
-    osmanfile = '/home/ubuntu/flat/foliadocserver/' + namespace + '/' + docid + '.folia.xml'
-    doc = ET.parse(osmanfile)
-    root = doc.getroot()
-    xmlstr = ET.tostring(root, encoding='utf8')
-
-    m = re.findall('<meta id="%s">\w+<\/meta>' % metakey, str(xmlstr))
-    m2 = re.findall('<meta id="%s" \/>' % metakey, str(xmlstr))
-    if m:
-        xmlstr = re.sub('<meta id="%s">\w+<\/meta>' % metakey,r'<meta id="' + metakey + '">' + metavalue + '</meta>', xmlstr.decode("utf-8"))
-        with codecs.open(osmanfile, "w", "utf-8") as f:
-            f.write(xmlstr)
-    elif m2:
-        xmlstr = re.sub('<meta id="%s" \/>' % metakey,r'<meta id="' + metakey + '">' + metavalue + '</meta>', xmlstr.decode("utf-8"))
-        with codecs.open(osmanfile, "w", "utf-8") as f:
-            f.write(xmlstr)
-    else:
-        metadata = root.getchildren()[0]
-        meta = ET.Element('meta', id=metakey)
-        meta.text = metavalue
-        metadata.append(meta)
-
-        doc.write(osmanfile)
-
-    ctx = dict()
-    ctx['hello'] = 'world'
-    return HttpResponse(json.dumps(ctx),content_type='application/json')
-#    return HttpResponse("Tamamdır.", content_type="text/plain")
