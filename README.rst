@@ -16,7 +16,7 @@ these documents with new annotations, a wide variety of linguistic annotation
 types is supported through the FoLiA paradigm. It is a document-centric tool
 that fully preserves and visualises document structure.
 
-FLAT is written in Python using the Django framework. The user interface is
+FLAT is written in Python using the Dango framework. The user interface is
 written using javascript with jquery.  The FoLiA Document Server
 (https://github.com/proycon/foliadocserve) , the back-end
 of the system, is written in Python with CherryPy and is used as a RESTful
