@@ -12,7 +12,7 @@
     <form action="/upload/" enctype="multipart/form-data" method="post">
         {% csrf_token %}
         <label>Select file:</label> <input type="file" name="file" /><br/>
-        <label>Namespace:</label> 
+        <label>Namespace:</label>
         <select name="namespace">
             {% if namespace %}
             <option value="{{namespace}}" selected="selected">{{namespace}}</option>
@@ -100,7 +100,7 @@
                 {% if key == "Done" %}
                     {{key}}: {{value}} &nbsp;
                 {% endif %}
-            {% endfor %} 
+            {% endfor %}
             </span> </li>
         {% endfor %}
         </ul>
@@ -111,7 +111,7 @@
         <h4>Document Management Operations</h4>
         <input type="hidden" id="filemanmode" name="filemanmode" value="" />
         {% if allowcopy %}
-        <button id="copybutton" onclick="submitfilemanager('copy')">Copy</button> selected documents to 
+        <button id="copybutton" onclick="submitfilemanager('copy')">Copy</button> selected documents to
         <select name="copytarget">
             {% for dir in recursivedirs %}
             {% if dir != namespace %}
@@ -121,7 +121,7 @@
         </select><br/>
         {% endif %}
         {% if allowcopy and allowdelete %}
-        <button id="movebutton" onclick="submitfilemanager('move')">Move</button> selected documents to 
+        <button id="movebutton" onclick="submitfilemanager('move')">Move</button> selected documents to
         <select name="movetarget">
             {% for dir in recursivedirs %}
             {% if dir != namespace %}
@@ -140,4 +140,3 @@
 </div>
 
 {% endblock %}
-

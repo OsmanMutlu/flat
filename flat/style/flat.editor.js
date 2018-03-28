@@ -2036,36 +2036,10 @@ function console_submit(savefunction) {
         error: function(req,err,exception) {
             $('#wait').hide();
             notice("Error");
-// Osman            editor_error("Query failed: " + err + " " + exception + ": " + req.responseText);
+            editor_error("Query failed: " + err + " " + exception + ": " + req.responseText);
         },
         dataType: "json"
     });
-}
-
-//Osman
-function osman_submit(value, value2) {
-
-    var url = "/" + namespace + "/" + docid + "/process_meta";
-    var newvalue = value;
-    var newvalue2 = value2;
-
-    $.ajax({
-        url: url,
-        type: "POST",
-        dataType: "json",
-        data: {
-            metakey: newvalue,
-            metavalue: newvalue2
-            },
-        success : function(json) {
-            //alert("Successfully sent the URL to Django");
-            location.reload();
-        },
-        error : function(xhr,errmsg,err) {
-            alert("Lütfen Tekrar OK'ye Basın. Error : " + xhr.status + ": " + xhr.responseText);
-        }
-    });
-
 }
 
 function saveversion() {
