@@ -29,7 +29,7 @@ hostname = gethostname()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'db',                      # Or path to database file if using sqlite3.
+        'NAME': '/home/user/Development/emw/flat.local.db',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -45,7 +45,7 @@ DATABASES = {
 
 #This is the path to the document root directory, this is the same directory as specified when running foliadocserve.
 #If the document server is running on a different system, the remote root disk will have to be mounted and the mountpoint specified here.
-WORKDIR = "/path/to/document/root/"
+WORKDIR = "/home/user/Development/emw/foliadocserver"
 
 #The path and port on which the FoLiA Document Server can be reached (these defaults suffice for a local connection)
 FOLIADOCSERVE_HOST = '127.0.0.1'
@@ -77,7 +77,12 @@ MODES = [
 #  be automatically constructed)
 #  - any other FoLiA XML tag corresponsing to a structural element: paged data
 #  over this type of element
-PERSPECTIVES = [ 'document', 'toc', 'p', 's' ]
+PERSPECTIVES = [
+   'document',
+   'toc',
+   'p',
+    's'
+]
 
 
 # Which mode should be used by default when the user opens a document?
@@ -94,7 +99,7 @@ DEFAULTMODE = 'editor'
 DEFAULTCONFIGURATION = 'full'
 
 # Allow users to register their own accounts?
-ALLOWREGISTRATION = True
+ALLOWREGISTRATION = False
 
 # Allow public anonymous uploads without any authentication?
 ALLOWPUBLICUPLOAD = False
@@ -106,17 +111,20 @@ CONFIGURATIONS = {
 
     # The name of the mode, this is what users will see in the login screen,
     # make sure the name is indicative of your annotation project, if any
-    'name': "Full Editor",
+    'name': "Protest Annotation",
 
     # use the editor modes defined globally, or specify them explicitly per configuration here.
-    'modes': MODES,
+#    'modes': MODES,
+    'modes': [('editor','Annotation Editor'),('metadata','Metadata Editor')],
 
     # use the perspectives defined globally, or specify them explicitly per configuration here.
-    'perspectives': PERSPECTIVES,
+#    'perspectives': PERSPECTIVES,
+    'perspectives': ['s'],
 
 
     # Allow users to upload FoLiA documents?
-    'allowupload': True, #boolean
+#    'allowupload': True, #boolean
+    'allowupload': False, #boolean
 
     #Automatically create namespaces for all the groups a user is in and has write permission for,
     'creategroupnamespaces': True, #boolean
@@ -125,9 +133,12 @@ CONFIGURATIONS = {
     # The annotation type that has is set as annotation focus will be
     # visualised. Set to a valid FoLiA tag name (see the FoLiA documentation at
     # https://proycon.github.io/folia) or None to start without a specific focus
-    'annotationfocustype': None,
+#    'annotationfocustype': None,
+    'annotationfocustype': 'entity',
     # If you set the above, you will also need to set what FoLiA set to use
-    'annotationfocusset': None,
+#    'annotationfocusset': None,
+    'annotationfocusset': 'https://github.com/OsmanMutlu/rawtext/raw/master/protes5-Event.foliaset.xml',
+
 
     #EXAMPLES:
     #'annotationfocustype': 'correction',
@@ -146,7 +157,8 @@ CONFIGURATIONS = {
     # Here and everywhere else, the annotation type equals the FoLiA XML tag
     # for the annotation, specific sets may be attached to annotation types using a slash, for example:
     #     entity/https://raw.githubusercontent.com/proycon/folia/master/setdefinitions/namedentities.foliaset.xml
-    'allowedannotationfocus': True,
+#    'allowedannotationfocus': True,
+    'allowedannotationfocus': ('entity/https://github.com/OsmanMutlu/rawtext/raw/master/protes5-Event.foliaset.xml','entity/https://github.com/OsmanMutlu/rawtext/raw/master/protes4-Participant.foliaset.xml','entity/https://github.com/OsmanMutlu/rawtext/raw/master/protes1-Targeted.foliaset.xml','entity/https://github.com/OsmanMutlu/rawtext/raw/master/protes3-Organizer.foliaset.xml',),
 
     #EXAMPLE:
     #'allowedannotationfocus': ('entity/https://raw.githubusercontent.com/proycon/folia/master/setdefinitions/namedentities.foliaset.xml'),
@@ -177,11 +189,13 @@ CONFIGURATIONS = {
 
     # Allow the user to add annotation types not yet present on a certain element?
     # If set to False, users can only edit existing annotations, never add new ones
-    'allowaddfields': True, #boolean
+#    'allowaddfields': True, #boolean
+    'allowaddfields': False, #boolean
 
 
     # Allow the user to add annotation types not yet present in the document?
-    'allowdeclare': True, #boolean
+#    'allowdeclare': True, #boolean
+    'allowdeclare': False, #boolean
 
 
     # The following values correspond to edit forms,
@@ -195,10 +209,12 @@ CONFIGURATIONS = {
     'editformdirect': True, #boolean
 
     #Enable editing as correction
-    'editformcorrection': True, #boolean
+#    'editformcorrection': True, #boolean
+    'editformcorrection': False, #boolean
 
     #Enable editing as alternative
-    'editformalternative': True, #boolean
+#    'editformalternative': True, #boolean
+    'editformalternative': False, #boolean
 
     #Enable editing as new, this allows for adding multiple or overlapping annotations of the same type
     'editformnew': True, #boolean
@@ -206,8 +222,10 @@ CONFIGURATIONS = {
 
     #This defines what edit modes the user can enable/disable from the menu
     'alloweditformdirect': True, #boolean
-    'alloweditformcorrection': True, #boolean
-    'alloweditformalternative': True, #boolean
+#    'alloweditformcorrection': True, #boolean
+    'alloweditformcorrection': False, #boolean
+#    'alloweditformalternative': True, #boolean
+    'alloweditformalternative': False, #boolean
     'alloweditformnew': True, #boolean
 
     #Allow confidence values to be set/edited?
@@ -226,6 +244,13 @@ CONFIGURATIONS = {
     #    ('entity', 'https://raw.githubusercontent.com/proycon/folia/master/setdefinitions/namedentities.foliaset.xml')
     #],
 
+    'autodeclare': [
+        ('entity', 'https://github.com/OsmanMutlu/rawtext/raw/master/protes5-Event.foliaset.xml'),
+        ('entity', 'https://github.com/OsmanMutlu/rawtext/raw/master/protes4-Participant.foliaset.xml'),
+        ('entity', 'https://github.com/OsmanMutlu/rawtext/raw/master/protes1-Targeted.foliaset.xml'),
+        ('entity', 'https://github.com/OsmanMutlu/rawtext/raw/master/protes3-Organizer.foliaset.xml')
+    ],
+
     # List of 2-tuples (tag,set) that specify what annotation types and with
     # what are required sets to be already present for each document that is
     # opened. This is more or less the opposite of autodeclare
@@ -238,9 +263,42 @@ CONFIGURATIONS = {
     #List of metadata keys (in  FoLiA's native metadata) to show in the
     # document index.
     #'metadataindex': ['status','language','title'],
+    'metadataindex': ['Done'],
 
     #Dictionary of metadata keys to lists of possible values, constrains the values in the metadata editor rather than offering a free-fill field. Example:
     #'metadataconstraints': {'language': ['fr','en','es'], 'status':['completed','inprogress']},
+    'metadataconstraints': {
+        'Done':['Yes','No'],
+        'ReligionParticipant':['Hinduism','Islam','Christianity','Sikhism','Buddhism','Multiple','Other','N-A'],
+        'ReligionOrganizer':['Hinduism','Islam','Christianity','Sikhism','Buddhism','Multiple','Other','N-A'],
+        'CasteParticipant':['Scheduled Castes','Scheduled Tribes','Other Backward Castes','Forward Caste','Brahmin','Multiple','N-A'],
+        'CasteOrganizer':['Scheduled Castes','Scheduled Tribes','Other Backward Castes','Forward Caste','Brahmin','Multiple','N-A'],
+        'EthnicityParticipant':['Hindi','English','Bengali','Telugu','Marathi','Tamil','Urdu','Kannada','Gujarati','Odia','Malayalam','Sanskrit','Multiple','Other','N-A'],
+        'EthnicityOrganizer':['Hindi','English','Bengali','Telugu','Marathi','Tamil','Urdu','Kannada','Gujarati','Odia','Malayalam','Sanskrit','Multiple','Other','N-A'],
+        'IdeologyParticipant':['Center-left', 'Hindu Nationalism_Far-right_Fascism', 'Radical left_socialism_communism', 'Islamism','Ethnic-Regional separatism-autonomism','Caste-based movements','Maoisim-Communist Party of India','Multiple','Other','N-A'],
+        'IdeologyOrganizer':['Center-left', 'Hindu Nationalism_Far-right_Fascism', 'Radical left_socialism_communism', 'Islamism','Ethnic-Regional separatism-autonomism','Caste-based movements','Maoisim-Communist Party of India','Multiple','Other','N-A'],
+        'Centrality':['Urban','Rural','Both','N-A'],
+        'LocationSES':['Poor','Not-Poor','Both','N-A'],
+        'ParticipantSES':['rural-landless_worker','rural-small_peasantry','rural-middle+rich_peasantry','urban-bourgeoisie','urban-professionals','urban-petty_bourgeoisie','urban-non-manual_formal_working_class','urban-manual_formal_working_class','urban-informal_working_class','Multiple','N-A'],
+        'Protest':['Yes','No'],
+        'Motivation':['economic_welfare','economic_non-welfare','non-economic','Multiple','N-A']
+    },
+    'autometadata': {
+        'Done':'',
+        'ReligionParticipant':'',
+        'ReligionOrganizer':'',
+        'CasteParticipant':'',
+        'CasteOrganizer':'',
+        'EthnicityParticipant':'',
+        'EthnicityOrganizer':'',
+        'IdeologyParticipant':'',
+        'IdeologyOrganizer':'',
+        'Centrality':'',
+        'LocationSES':'',
+        'ParticipantSES':'',
+        'Protest':'',
+        'Motivation':''
+    },
 
     #'searches': [{'query': 'SELECT entity WHERE annotatortype = "manual" FOR w RETURN target', 'label': "Highlight manually annotated entities", 'changeperspective': false}]
 },
@@ -253,14 +311,14 @@ CONFIGURATIONS = {
 #############################################################################
 
 ADMINS = ( #Change to your contact details
-    ('Maarten van Gompel', 'proycon@anaproy.nl'),
+    ('Atılberk Çelebi', 'atcelebi@ku.edu.tr'),
 )
 
 # Make this unique, and don't share it with anybody.
 # IMPORTANT!!!! GENERATE A NEW SECRET KEY !!!! The default one here is *NOT*
 # secret as it's publicly disclosed in the FLAT sources!
 # (Use for instance http://www.miniwebtool.com/django-secret-key-generator/)
-SECRET_KEY = 'ki5^nfv01@1g7(+*#l_0fmi9h&cf^_lv6bs4j9^6mpr&(%o4zk'
+SECRET_KEY = 'at+g$90$0xu^6-p-s5pybd=82e%0agdl2cg$a_l2b5lwu@#lm3m9at'
 
 DEBUG = True #Set to False for production environments!!!!
 
@@ -282,7 +340,7 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'Europe/Amsterdam'
+TIME_ZONE = 'Europe/Istanbul'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -308,7 +366,7 @@ MEDIA_ROOT = BASE_DIR + 'usermedia/' #not used currently by FLAT
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = 'http://flat.science.ru.nl/usermedia/' #not used currently by FLAT
+MEDIA_URL = 'http://localhost:8080/usermedia/' #not used currently by FLAT
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -475,7 +533,7 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 
 #Remove this when done configuring:
-raise Exception("settings.py hasn't been configured yet!!")
+# raise Exception("settings.py hasn't been configured yet!!")
 
 
 # Now you can start FLAT as follows:
