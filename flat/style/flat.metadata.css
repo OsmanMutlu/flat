@@ -34,3 +34,19 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+#metadata .ms-options-wrap > .ms-options {
+    width: 41%;
+    left:auto;
+}
+#metadata .ms-options-wrap > .ms-options input[type=checkbox] {
+    width: auto;
+    left: 2px;
+    top: 3px;
+}
+#metadata .ms-options-wrap > .ms-options > ul input[type="checkbox"] {
+    position: relative;
+}
+#metadata .ms-options-wrap > .ms-options > ul label {
+  padding: inherit;
+}

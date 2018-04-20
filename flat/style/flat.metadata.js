@@ -44,6 +44,7 @@ function metadata_oninit() {
     s = s + "<div class=\"buttons\"><button id=\"metadatasubmit\" onclick=\"metadata_submit()\">Save changes</button> <button onclick=\"metadata_addinput()\">+</button></div>";
     $('#metadata').html(s);
     metadata_addnewemptyfield();
+    $("select[multiple]").multiselect({minHeight:null});
 }
 
 function metadata_addnewemptyfield() {
@@ -64,10 +65,12 @@ function metadata_addnewemptyfield() {
 
 function metadata_getvalueoptions(key, i) {
     //get value options from metadata constraints
-    var s = "<select id=\"metavalue" + i +"\">";
+
+    var s = "<select multiple=\"multiple\" id=\"metavalue" + i +"\">";
     var found = false;
+    selectedValues=(metadata[key] !== undefined ? metadata[key] : "").split(",").filter(s=>s!="");
     for (j = 0; j < configuration.metadataconstraints[key].length; j++) {
-        if (configuration.metadataconstraints[key][j] == metadata[key]) {
+        if (selectedValues.indexOf(configuration.metadataconstraints[key][j]) > -1) {
             s = s + "<option value=\"" + configuration.metadataconstraints[key][j] + "\" selected=\"selected\">" + configuration.metadataconstraints[key][j] + "</option>";
             found = true;
         } else {
@@ -77,9 +80,9 @@ function metadata_getvalueoptions(key, i) {
     if (!found) {
         if ((metadata[key] !== undefined)) {
             //value not in constraints but it has been set anyway, add it to the list
-            s = s + "<option value=\"" + metadata[key] + "\" selected=\"selected\">" + metadata[key] + "</option>";
+            // s = s + "<option value=\"" + metadata[key] + "\" selected=\"selected\">" + metadata[key] + "</option>";
         } else if (configuration.autometadata[key] !== undefined) {
-            s = s + "<option value=\"" + configuration.autometadata[key] + "\" selected=\"selected\">" + configuration.autometadata[key] + "</option>";
+            // s = s + "<option value=\"" + configuration.autometadata[key] + "\" selected=\"selected\">" + configuration.autometadata[key] + "</option>";
         }
     }
     s = s + "</select>";
@@ -103,6 +106,7 @@ function metadata_submit() {
     Object.keys(metadata).forEach(function(key){
         var newkey = $('#metakey' + i).val();
         var newvalue = $('#metavalue' + i).val();
+        if (typeof(newvalue) === "object") newvalue = newvalue.join(",");
         if (newkey != key) {
             //key changed, delete this one
             queries.push("USE " + namespace + "/" + docid + " META " + key + "=NONE");
