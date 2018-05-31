@@ -375,8 +375,8 @@ def index(request, namespace=""):
                 metaitems = []
             docs.append( (docid, round(r['filesize'][d] / 1024 / 1024,2) , datetime.datetime.fromtimestamp(r['timestamp'][d]).strftime("%Y-%m-%d %H:%M"), metaitems ) )
 
-#    docs = sorted(docs, key=lambda x: x[2])
-    docs.sort()
+    docs = sorted(docs, key=lambda x: x[2],reverse=True)
+#    docs.sort()
 
     if namespace:
         parentdir = '/'.join(namespace.split('/')[:-1])

@@ -141,6 +141,9 @@ div.class17 span.lbl, div#class17legend {
 div.class18 span.lbl, div#class18legend {
     background: #e6beff; /*lavender*/
 }
+div.class19 span.lbl, div#class19legend {
+    background: #fabebe; /*pink*/
+}
 div.classother span.lbl, div#classotherlegend {
     background: #ccc; /*gray*/
 }

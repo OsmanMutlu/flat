@@ -12,7 +12,7 @@ var displayorder = ['t','ph','lemma','pos','sense','entity','sentiment','observa
 var hoverstr = null; //ID of string element we're currently hovering over
 var suggestinsertion = {}; //holds suggestions for insertion: id => annotation  , for use in the editor
 //Too Many Classes
-var NROFCLASSES = 18; //number of coloured classes
+var NROFCLASSES = 19; //number of coloured classes
 var searchsubmitted = false;
 
 // The excessive use of "Osman" (which is my name) in this document is for me to quickly find where i made changes, nothing to with egoism :)

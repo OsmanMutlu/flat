@@ -15,8 +15,8 @@
             <script type="text/javascript" src="/style/qunit-1.17.1.js"></script>
             <script type="text/javascript" src="/style/testflat.js"></script>
         {% endif %}
-        <link rel="StyleSheet" href="/style/jquery.multiselect.css" type="text/css" />
         <link rel="StyleSheet" href="/style/jquery-ui.min.css" type="text/css" />
+        <link rel="StyleSheet" href="/style/jquery.multiselect.css" type="text/css" />
         <link rel="StyleSheet" href="/style/flat.css" type="text/css" />
         <script type="text/javascript" src="/style/foliaspec.js"></script>
         <script type="text/javascript" src="/style/folia.js"></script>
@@ -24,8 +24,8 @@
         {% block head %}
         {% endblock %}
         {% if mode %}
-        <link rel="StyleSheet" href="/style/flat.{{ mode }}.css" type="text/css" />
-        <script type="text/javascript" src="/style/flat.{{ mode }}.js?version=3"></script>
+        <link rel="StyleSheet" href="/style/flat.{{ mode }}.css?version=3" type="text/css" />
+        <script type="text/javascript" src="/style/flat.{{ mode }}.js?version=11"></script>
         {% endif %}
         {% if docid and not fatalerror %}
         <script type="text/javascript">

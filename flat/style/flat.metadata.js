@@ -1,11 +1,17 @@
 var newfields = 0;
 var metadatafields = 0;
+var secondmetas = ["Religion2","Ethnicity2","Caste2","Ideology2","Motivation2","Centrality2","Poor2","SocialClass2","Violent2","RelevantCountry2"];
 
 function metadata_ontimer() {
 }
 
 function metadata_addfield(key,i) {
-    var s = "<tr><td class=\"key\"><input id=\"metakey" + i + "\" value=\"" + key + "\" /></td><td class=\"value\">";
+    if (secondmetas.indexOf(key) > -1) {
+        var s = "<tr style=\"display:none;\"><td class=\"key\"><input id=\"metakey" + i + "\" value=\"" + key + "\" /></td><td class=\"value\">";
+    }
+    else {
+        var s = "<tr><td class=\"key\"><input id=\"metakey" + i + "\" value=\"" + key + "\" /></td><td class=\"value\">";
+    }
     if ((configuration.metadataconstraints) && (configuration.metadataconstraints[key])) {
         s = s + metadata_getvalueoptions(key, i);
     } else if (metadata[key] !== undefined) {
@@ -41,7 +47,7 @@ function metadata_oninit() {
     }
     s = s + "<tr id=\"metadataplaceholder\"></tr>";
     s = s + "</table>";
-    s = s + "<div class=\"buttons\"><button id=\"metadatasubmit\" onclick=\"metadata_submit()\">Save changes</button> <button onclick=\"metadata_addinput()\">+</button></div>";
+    s = s + "<div class=\"buttons\"><button id=\"metadatasubmit\" onclick=\"metadata_submit()\">Save changes</button> <button onclick=\"metadata_addinput()\">+</button> <button id=\"event2\" onclick=\"second_event()\">Second Event</button></div>";
     $('#metadata').html(s);
     metadata_addnewemptyfield();
     $("select[multiple]").multiselect({minHeight:null});
@@ -65,7 +71,6 @@ function metadata_addnewemptyfield() {
 
 function metadata_getvalueoptions(key, i) {
     //get value options from metadata constraints
-
     var s = "<select multiple=\"multiple\" id=\"metavalue" + i +"\">";
     var found = false;
     selectedValues=(metadata[key] !== undefined ? metadata[key] : "").split(",").filter(s=>s!="");
@@ -97,6 +102,14 @@ function metadata_changekey(i) {
         if (value === "") {
             $('#metavalue' + i)[0].outerHTML = metadata_getvalueoptions(key, i);
         }
+    }
+}
+
+function second_event() {
+
+    var list = document.getElementsByTagName("tr")
+    for (var i = 0; i < list.length; i++) {
+        list[i].removeAttribute("style");
     }
 }
 
