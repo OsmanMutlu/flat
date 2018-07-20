@@ -2042,6 +2042,7 @@ function console_submit(savefunction) {
     });
 }
 
+
 function saveversion() {
     /* Trigger a version save, propagates to the git backend */
     $('#wait span.msg').val("Saving version");
@@ -2215,3 +2216,29 @@ function editor_oninit() {
     });
 
 }
+
+// Binding keys
+$(document).bind('keydown', "Shift+m", function assets() {
+    document.evaluate('//a[contains(text(), "Metadata Editor")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();
+    return false;
+});
+
+$(document).bind('keydown', "Shift+e", function assets() {
+    document.evaluate('//ul/li[2]//a[contains(text(), "Event")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();
+    return false;
+});
+
+$(document).bind('keydown', "Shift+p", function assets() {
+    document.evaluate('//ul/li[2]//a[contains(text(), "Participant")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();
+    return false;
+});
+
+$(document).bind('keydown', "Shift+o", function assets() {
+    document.evaluate('//ul/li[2]//a[contains(text(), "Organizer")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();
+    return false;
+});
+
+$(document).bind('keydown', "Shift+t", function assets() {
+    document.evaluate('//ul/li[2]//a[contains(text(), "Target")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();
+    return false;
+});

@@ -1,6 +1,6 @@
 var newfields = 0;
 var metadatafields = 0;
-var secondmetas = ["Religion2","Ethnicity2","Caste2","Ideology2","Motivation2","Centrality2","Poor2","SocialClass2","Violent2","RelevantCountry2"];
+var secondmetas = ["Religion2","Ethnicity2","Caste2","Ideology2","Motivation2","Centrality2","Poor2","SocialClass2","Violent2","RelevantCountry2","Formality2"];
 
 function metadata_ontimer() {
 }
@@ -168,3 +168,8 @@ function metadata_submit() {
         alert("No changes to submit");
     }
 }
+
+$(document).bind('keydown', "Shift+a", function assets() {
+    document.evaluate('//a[contains(text(), "Annotation Editor")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();
+    return false;
+});

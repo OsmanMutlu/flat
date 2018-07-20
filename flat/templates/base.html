@@ -10,6 +10,7 @@
         <script type="text/javascript" src="/style/jquery-3.1.0.min.js"></script>
         <script type="text/javascript" src="/style/jquery-ui.min.js"></script>
         <script type="text/javascript" src="/style/jquery.multiselect.js"></script>
+        <script type="text/javascript" src="/style/jquery.hotkeys.js"></script>
         {% if namespace == "testflat" and docid != "manual" %}
             <link rel="StyleSheet" href="/style/qunit-1.17.1.css" type="text/css" />
             <script type="text/javascript" src="/style/qunit-1.17.1.js"></script>
@@ -25,7 +26,7 @@
         {% endblock %}
         {% if mode %}
         <link rel="StyleSheet" href="/style/flat.{{ mode }}.css?version=3" type="text/css" />
-        <script type="text/javascript" src="/style/flat.{{ mode }}.js?version=11"></script>
+        <script type="text/javascript" src="/style/flat.{{ mode }}.js?version=13"></script>
         {% endif %}
         {% if docid and not fatalerror %}
         <script type="text/javascript">
